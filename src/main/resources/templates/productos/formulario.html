@@ -1,87 +1,366 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario Producto</title>
+    <title th:text="${producto.id != null ? 'Editar Producto' : 'Crear Producto'} + ' - Sistema de Inventario'">Formulario Producto</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
+        /**
+         * Estilos para el formulario de productos.
+         * Proporciona una interfaz limpia y moderna para crear/editar productos.
+         */
+        
         body {
-            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            padding: 20px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .form-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .form-body {
+            padding: 40px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-control, .form-select {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-check {
+            margin-top: 10px;
+        }
+        
+        .form-check-input {
+            border: 2px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+        
+        .btn-save {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-save:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+        
+        .btn-cancel {
+            background: #e0e0e0;
+            border: none;
+            color: #333;
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-cancel:hover {
+            background: #d0d0d0;
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 30px;
+        }
+        
+        .icon-input {
+            position: relative;
+        }
+        
+        .icon-input i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+        }
+        
+        .icon-input .form-control,
+        .icon-input .form-select {
+            padding-left: 45px;
+        }
+        
+        .help-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: -15px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-pencil-square"></i>
-                            <span th:if="${producto.id == null}">Crear Producto</span>
-                            <span th:if="${producto.id != null}">Editar Producto</span>
-                        </h5>
+    <!-- Contenedor del formulario -->
+    <div class="form-container">
+        
+        <!-- Encabezado -->
+        <div class="form-header">
+            <h2>
+                <i class="bi bi-pencil-square"></i>
+                <span th:if="${producto.id == null}">Crear Nuevo Producto</span>
+                <span th:if="${producto.id != null}">Editar Producto</span>
+            </h2>
+        </div>
+        
+        <!-- Cuerpo del formulario -->
+        <div class="form-body">
+            
+            <!-- Formulario de producto -->
+            <form th:action="@{/productos}" th:method="post" th:object="${producto}" id="productForm">
+                
+                <!-- Campo oculto para ID (en edición) -->
+                <input type="hidden" th:field="*{id}">
+                
+                <!-- Campo Código -->
+                <div class="form-group">
+                    <label for="codigo" class="form-label">
+                        <i class="bi bi-barcode"></i> Código del Producto
+                    </label>
+                    <div class="icon-input">
+                        <i class="bi bi-barcode"></i>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="codigo" 
+                            th:field="*{codigo}"
+                            placeholder="Ej: PRD001"
+                            required
+                            pattern="[A-Za-z0-9]{3,}"
+                            title="Mínimo 3 caracteres alfanuméricos">
                     </div>
-                    <div class="card-body">
-                        <form th:action="@{/productos}" th:method="post" th:object="${producto}">
-                            <input type="hidden" th:field="*{id}">
-
-                            <div class="mb-3">
-                                <label for="codigo" class="form-label">Código:</label>
-                                <input type="text" class="form-control" id="codigo" th:field="*{codigo}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre:</label>
-                                <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="categoria" class="form-label">Categoría:</label>
-                                <select class="form-control" id="categoria" th:field="*{categoria}">
-                                    <option value="">Seleccione...</option>
-                                    <option value="Electronicos">Electrónicos</option>
-                                    <option value="Accesorios">Accesorios</option>
-                                    <option value="Muebles">Muebles</option>
-                                    <option value="Ropa">Ropa</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="precio" class="form-label">Precio:</label>
-                                <input type="number" class="form-control" id="precio" th:field="*{precio}" step="0.01" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="stock" class="form-label">Stock:</label>
-                                <input type="number" class="form-control" id="stock" th:field="*{stock}" required>
-                            </div>
-
-                            <div class="mb-3">
-                                <div class="form-check">
-                                    <input type="checkbox" class="form-check-input" id="activo" th:field="*{activo}">
-                                    <label class="form-check-label" for="activo">Activo</label>
-                                </div>
-                            </div>
-
-                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-save"></i> Guardar
-                                </button>
-                                <a href="/productos" class="btn btn-secondary">
-                                    <i class="bi bi-arrow-left"></i> Cancelar
-                                </a>
-                            </div>
-                        </form>
+                    <div class="help-text">Mínimo 3 caracteres. Debe ser único.</div>
+                </div>
+                
+                <!-- Campo Nombre -->
+                <div class="form-group">
+                    <label for="nombre" class="form-label">
+                        <i class="bi bi-box"></i> Nombre del Producto
+                    </label>
+                    <div class="icon-input">
+                        <i class="bi bi-box"></i>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="nombre" 
+                            th:field="*{nombre}"
+                            placeholder="Ej: Laptop Dell XPS 13"
+                            required
+                            minlength="5"
+                            maxlength="120"
+                            title="Mínimo 5 caracteres">
+                    </div>
+                    <div class="help-text">Mínimo 5 caracteres.</div>
+                </div>
+                
+                <!-- Campo Categoría -->
+                <div class="form-group">
+                    <label for="categoria" class="form-label">
+                        <i class="bi bi-tag"></i> Categoría
+                    </label>
+                    <div class="icon-input">
+                        <i class="bi bi-tag"></i>
+                        <select class="form-select" id="categoria" th:field="*{categoria}">
+                            <option value="">-- Seleccione una categoría --</option>
+                            <option value="Electrónicos">Electrónicos</option>
+                            <option value="Accesorios">Accesorios</option>
+                            <option value="Muebles">Muebles</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Otro">Otro</option>
+                        </select>
                     </div>
                 </div>
-            </div>
+                
+                <!-- Campo Precio -->
+                <div class="form-group">
+                    <label for="precio" class="form-label">
+                        <i class="bi bi-currency-dollar"></i> Precio Unitario
+                    </label>
+                    <div class="icon-input">
+                        <i class="bi bi-currency-dollar"></i>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="precio" 
+                            th:field="*{precio}"
+                            step="0.01"
+                            min="0"
+                            placeholder="Ej: 99.99"
+                            required
+                            title="Debe ser un número mayor a 0">
+                    </div>
+                    <div class="help-text">Debe ser mayor a 0. Formato: 99.99</div>
+                </div>
+                
+                <!-- Campo Stock -->
+                <div class="form-group">
+                    <label for="stock" class="form-label">
+                        <i class="bi bi-stack"></i> Cantidad en Stock
+                    </label>
+                    <div class="icon-input">
+                        <i class="bi bi-stack"></i>
+                        <input 
+                            type="number" 
+                            class="form-control" 
+                            id="stock" 
+                            th:field="*{stock}"
+                            min="0"
+                            placeholder="Ej: 10"
+                            required
+                            title="Debe ser un número igual o mayor a 0">
+                    </div>
+                    <div class="help-text">Cantidad disponible en inventario.</div>
+                </div>
+                
+                <!-- Campo Estado -->
+                <div class="form-group">
+                    <div class="form-check">
+                        <input 
+                            type="checkbox" 
+                            class="form-check-input" 
+                            id="activo" 
+                            th:field="*{activo}"
+                            title="Marque para activar el producto">
+                        <label class="form-check-label" for="activo">
+                            <i class="bi bi-toggle-on"></i> Producto Activo
+                        </label>
+                    </div>
+                    <div class="help-text">Desmarque para desactivar el producto.</div>
+                </div>
+                
+                <!-- Botones de acción -->
+                <div class="button-group">
+                    <a href="/productos" class="btn btn-cancel">
+                        <i class="bi bi-arrow-left"></i> Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-save">
+                        <i class="bi bi-save"></i> Guardar Producto
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-
+    
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Validaciones adicionales en JavaScript -->
+    <script>
+        /**
+         * Validaciones JavaScript adicionales para mejorar la experiencia del usuario.
+         */
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            // Validaciones personalizadas
+            const codigo = document.getElementById('codigo').value.trim();
+            const nombre = document.getElementById('nombre').value.trim();
+            const precio = parseFloat(document.getElementById('precio').value);
+            const stock = parseInt(document.getElementById('stock').value);
+            
+            // Validar código
+            if (codigo.length < 3) {
+                e.preventDefault();
+                alert('El código debe tener al menos 3 caracteres');
+                return;
+            }
+            
+            // Validar nombre
+            if (nombre.length < 5) {
+                e.preventDefault();
+                alert('El nombre debe tener al menos 5 caracteres');
+                return;
+            }
+            
+            // Validar precio
+            if (isNaN(precio) || precio <= 0) {
+                e.preventDefault();
+                alert('El precio debe ser un número mayor a 0');
+                return;
+            }
+            
+            // Validar stock
+            if (isNaN(stock) || stock < 0) {
+                e.preventDefault();
+                alert('El stock debe ser un número igual o mayor a 0');
+                return;
+            }
+        });
+    </script>
 </body>
 </html>
