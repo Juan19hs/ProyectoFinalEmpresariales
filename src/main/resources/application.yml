@@ -37,4 +37,5 @@ logging:
     root: INFO
     com.inventario: DEBUG
     org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
     org.hibernate.SQL: DEBUG
