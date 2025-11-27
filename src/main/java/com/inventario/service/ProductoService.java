@@ -143,6 +143,10 @@ public class ProductoService {
             producto.setStock(p.getStock());
         }
         if (p.getActivo() != null) producto.setActivo(p.getActivo());
+        // Actualizar categoría si fue enviada en el formulario
+        if (p.getCategoria() != null) {
+            producto.setCategoria(p.getCategoria());
+        }
         // Si se envía un nuevo código, permitir actualizarlo solo si no existe en otro producto
         if (p.getCodigo() != null) {
             String nuevoCodigo = p.getCodigo().trim();

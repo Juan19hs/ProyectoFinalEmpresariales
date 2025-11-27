@@ -291,3 +291,19 @@ URL: http://localhost:9090
 
 ---
 
+## Ajustes y Correcciones - Fase 2.6
+
+### 📋 Cambios Realizados (UI/Funciones)
+
+- Eliminado el enlace redundante "Panel Productos" que aparecía dentro de cada fila del listado de productos; en la columna de acciones ahora sólo aparecen "Editar" y "Eliminar" para administradores.
+- Corregido que al editar un producto **no** se reflejaba el cambio de categoría: ahora `ProductoService#actualizar` asigna correctamente la `categoria` enviada desde el formulario y se persiste en la base de datos.
+- Unificado el diseño del botón de `Cerrar Sesión` para que use el mismo estilo (gradiente) que `Panel Admin` en `base.html` y en las plantillas de administración (`admin/*`) para mantener coherencia visual.
+
+### ✅ Comprobaciones realizadas (Fase 2.6)
+
+- Verificado que en listados de productos la columna Acciones **solo** muestra Editar/Eliminar para administradores y no muestra el botón "Panel Productos" por fila.
+- Probado que la edición de producto permitiendo cambiar su categoría se guarda correctamente y se refleja en la vista del listado.
+- Comprobado visualmente que los botones `Panel Admin` y `Cerrar Sesión` comparten el mismo estilo gradiente en `base.html` y en las pantallas administrativas.
+
+---
+
