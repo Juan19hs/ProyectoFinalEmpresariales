@@ -51,6 +51,8 @@ public class AdminController {
         List<Producto> todos = productoService.listarTodos();
         model.addAttribute("totalProductos", todos.size());
         model.addAttribute("totalCategorias", categoriaService.listarTodos().size());
+        // Título para la plantilla base
+        model.addAttribute("titulo", "Panel de Administración - Inventario");
         return "admin/panel";
     }
 
@@ -69,6 +71,8 @@ public class AdminController {
         model.addAttribute("masBaratos", productoService.obtenerMasBaratos(5));
         model.addAttribute("mayorStock", productoService.obtenerMayorStock(5));
         model.addAttribute("menorStock", productoService.obtenerMenorStock(5));
+        // Título para la plantilla base
+        model.addAttribute("titulo", "Estadísticas de Productos - Admin");
         return "admin/estadisticas";
     }
 }

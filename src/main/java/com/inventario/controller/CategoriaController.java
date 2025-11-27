@@ -34,6 +34,8 @@ public class CategoriaController {
     public String listar(Model model) {
         List<Categoria> categorias = service.listarTodos();
         model.addAttribute("categorias", categorias);
+        // Título para la plantilla base
+        model.addAttribute("titulo", "Listado de Categorías - Admin");
         return "admin/categorias/listado";
     }
 
@@ -43,6 +45,8 @@ public class CategoriaController {
     @GetMapping("/nuevo")
     public String nuevoForm(Model model) {
         model.addAttribute("categoria", new Categoria());
+        // Título para la plantilla base
+        model.addAttribute("titulo", "Nueva Categoría - Admin");
         return "admin/categorias/formulario";
     }
 
@@ -70,6 +74,7 @@ public class CategoriaController {
         Optional<Categoria> c = service.obtenerPorId(id);
         if (c.isPresent()) {
             model.addAttribute("categoria", c.get());
+            model.addAttribute("titulo", "Editar Categoría - Admin");
             return "admin/categorias/formulario";
         }
         redirect.addFlashAttribute("mensaje", "Categoría no encontrada");

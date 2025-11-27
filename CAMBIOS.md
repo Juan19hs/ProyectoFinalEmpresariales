@@ -172,6 +172,29 @@ URL: http://localhost:9090
 **Fecha:** 2025
 ---
 
+## Ajustes y Correcciones - Fase 2.1
+
+### 📋 Cambios Realizados (UI y commits)
+
+- Unificado el aspecto de las plantillas del administrador para reutilizar la interfaz base (`base.html`).
+  - `admin/panel.html`, `admin/estadisticas.html`, `admin/categorias/listado.html`, y `admin/categorias/formulario.html` ahora usan `th:fragment="content"` y delegan el encabezado, navegación y estilos a `base.html`.
+  - Se eliminaron duplicaciones de CSS y scripts en las plantillas del área de administración para mantener una interfaz coherente.
+- Añadido el atributo `titulo` en `AdminController` y `CategoriaController` para que `base.html` muestre títulos adecuados en cada página administrativa.
+- Documentación actualizada: esta sección y comentarios JavaDoc añadidos donde se modificaron los controladores para la nueva propiedad `titulo`.
+
+### 🛠️ Archivos modificados (UI)
+- `src/main/resources/templates/admin/panel.html` - Reutiliza `base.html`
+- `src/main/resources/templates/admin/estadisticas.html` - Reutiliza `base.html`
+- `src/main/resources/templates/admin/categorias/listado.html` - Reutiliza `base.html`
+- `src/main/resources/templates/admin/categorias/formulario.html` - Reutiliza `base.html`
+- `src/main/java/com/inventario/controller/AdminController.java` - Añadido `titulo` en métodos `panel` y `estadisticas`
+- `src/main/java/com/inventario/controller/CategoriaController.java` - Añadido `titulo` en `listar`, `nuevoForm`, y `editarForm`
+
+### ✅ Comprobaciones realizadas
+- Verificado que las plantillas del administrador hereden estilos y navegación de `base.html`.
+- Verificado que las URLs administrativas sigan siendo `/admin/**` y que la protección por `ROLE_ADMIN` se mantiene.
+---
+
 **Versión:** 1.0  
 **Autor:** Sistema de Inventario - Sexto Semestre  
 **Fecha:** 2025
