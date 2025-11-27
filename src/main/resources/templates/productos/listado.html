@@ -147,8 +147,8 @@
                         <th><i class="bi bi-box"></i> Nombre</th>
                         <th><i class="bi bi-tag"></i> Categoría</th>
                         <th><i class="bi bi-currency-dollar"></i> Precio</th>
-                        <th><i class="bi bi-stack"></i> Stock</th>
-                        <th><i class="bi bi-toggle-on"></i> Estado</th>
+                        <th sec:authorize="hasRole('ADMIN')"><i class="bi bi-stack"></i> Stock</th>
+                        <th sec:authorize="hasRole('ADMIN')"><i class="bi bi-toggle-on"></i> Estado</th>
                         <th><i class="bi bi-gear"></i> Acciones</th>
                     </tr>
                 </thead>
@@ -189,6 +189,11 @@
                                    onclick="return confirm('¿Está seguro de eliminar este producto?')" 
                                    title="Eliminar">
                                     <i class="bi bi-trash"></i>
+                                </a>
+                            </span>
+                            <span sec:authorize="hasRole('USER')">
+                                <a th:href="@{/carrito/agregar/{id}(id=${p.id})}" class="btn btn-sm btn-primary" title="Agregar al carrito">
+                                    <i class="bi bi-cart-plus"></i> Agregar
                                 </a>
                             </span>
                             <!-- Solo editar y eliminar deben aparecer para ADMIN en acciones -->

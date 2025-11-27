@@ -126,8 +126,21 @@ URL: http://localhost:9090
 
 ## Ajustes y Correcciones - Fase 2.5
 
-### 📋 Cambios Realizados (Corrección de cantidad, precio y roles)
+## Ajustes y Mejoras - Fase 2.7
 
+### 📋 Cambios Realizados (UX/Carrito)
+
+- Ajustado el listado de productos para usuarios (`ROLE_USER`): en vista de usuario se ocultan las columnas `Stock` y `Estado`, quedando solo: `ID, Código, Nombre, Categoría, Precio, Acciones`.
+- En la columna `Acciones` para usuarios se añadió el botón `Agregar` que añade el producto al carrito (ruta GET `/carrito/agregar/{id}` con `cantidad=1` por defecto).
+- Refactorizada la plantilla del carrito (`carrito/listado.html`) para usar el mismo diseño de cabecera del resto de páginas, incluyendo el botón `Panel Productos` y `Cerrar Sesión` en la parte superior izquierda, y manteniendo la lista con `ID, Código, Nombre, Cantidad, Precio` y `Acciones`.
+
+### ✅ Comprobaciones realizadas (Fase 2.7)
+
+- Logueado como `user`, verificado que el listado de productos muestra solo las columnas solicitadas y el botón `Agregar` en Acciones.
+- Logueado como `admin`, verificado que el listado muestra las columnas: `Stock` y `Estado` y las acciones `Editar` / `Eliminar`.
+- Probado que al agregar un producto al carrito usando el botón, el `CarritoController` lo añade a la sesión y se puede ver en `/carrito`.
+
+---
 - Corregido y normalizado el manejo del `stock` en el modelo `Producto`:
   - Se añadió validación en `setStock()` para evitar valores nulos o negativos y forzar valores enteros.
   - Se añadió comprobación en `ProductoService` para validar `stock` al crear y actualizar.
