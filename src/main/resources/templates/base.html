@@ -74,7 +74,7 @@
                 <span sec:authorize="hasRole('ADMIN')">
                     <a href="/productos" class="btn btn-primary ms-2" style="background: linear-gradient(135deg,#3b82f6,#06b6d4); color: white; border: none;">Panel Productos</a>
                 </span>
-                <span sec:authorize="hasRole('USER') and !hasRole('ADMIN')">
+                <span sec:authorize="hasRole('USER')">
                     <a href="/carrito" class="btn btn-primary ms-2" style="background: linear-gradient(135deg,#3b82f6,#06b6d4); color: white; border: none;">Carrito</a>
                 </span>
                 <span sec:authentication="principal.username"></span>
