@@ -237,3 +237,26 @@ URL: http://localhost:9090
 **Versión:** 1.0  
 **Autor:** Sistema de Inventario - Sexto Semestre  
 **Fecha:** 2025
+
+## Ajustes Finales y Verificación - Fase 2.4
+
+### 📋 Cambios Realizados (Verificación)
+
+- Verificada la correcta creación y edición de Productos incluyendo la selección dinámica de Categorías desde la BD.
+- Validada la corrección del error "Código ya existe" al editar un producto; ahora el sistema solo valida el `codigo` si es modificado y es único.
+- Corregido el diseño para evitar duplicaciones de controles de usuario y logout: los elementos de sesión ahora se muestran únicamente en `base.html`.
+- Probadas las vistas del panel administrativo y de estadísticas; las métricas regresan listas ordenadas por precio/stock como se documentó.
+
+### 🧪 Pruebas realizadas
+
+- Compilación y empaquetado exitoso (`mvn package`).
+- Ejecución local del JAR (`java -jar target/InventarioSpringBoot.jar`) en puerto 9090 para comprobación.
+- Acceso a `/login`, `/productos` y rutas administrativas `/admin`, `/admin/estadisticas`, `/admin/categorias` (requieren ROLE_ADMIN). 
+
+### 🔧 Ajustes menores
+
+- Se añadió el atributo `titulo` para todas las páginas administrativas y de categoría para mejorar el SEO/UX y para que `base.html` muestre el título correcto.
+- Se aplicó una limpieza en plantillas para eliminar estilos o scripts duplicados en admin; se decidió mantener estilos visuales en templates admin para evitar romper la estética de las páginas ya existentes.
+
+---
+
