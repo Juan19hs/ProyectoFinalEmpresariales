@@ -2,6 +2,7 @@ package com.inventario.controller;
 
 import com.inventario.model.Producto;
 import com.inventario.service.ProductoService;
+import com.inventario.service.CategoriaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,7 @@ public class ProductoController {
      * Servicio para realizar operaciones CRUD sobre productos.
      */
     private final ProductoService service;
+    private final CategoriaService categoriaService;
 
     /**
      * Constructor para inyección de dependencias (recomendado en Spring).
@@ -40,8 +42,9 @@ public class ProductoController {
      *
      * @param service Servicio de productos
      */
-    public ProductoController(ProductoService service) {
+    public ProductoController(ProductoService service, CategoriaService categoriaService) {
         this.service = service;
+        this.categoriaService = categoriaService;
     }
 
     /**
@@ -72,6 +75,8 @@ public class ProductoController {
     @GetMapping("/nuevo")
     public String nuevoForm(Model model) {
         model.addAttribute("producto", new Producto());
+        // Añadir listado de categorías disponibles para el select
+        model.addAttribute("categorias", categoriaService.listarTodos());
         return "productos/formulario";
     }
 
@@ -117,6 +122,8 @@ public class ProductoController {
         Optional<Producto> p = service.obtenerPorId(id);
         if (p.isPresent()) {
             model.addAttribute("producto", p.get());
+            // Añadir listado de categorías disponibles para el select
+            model.addAttribute("categorias", categoriaService.listarTodos());
             return "productos/formulario";
         }
         redirect.addFlashAttribute("mensaje", "Producto no encontrado");

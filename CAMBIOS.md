@@ -220,6 +220,10 @@ URL: http://localhost:9090
 - `src/main/resources/templates/admin/categorias/listado.html` - Eliminado perfil/Logout duplicado dentro del contenido
 - `src/main/resources/templates/admin/categorias/formulario.html` - Eliminado perfil/Logout duplicado dentro del contenido
 
+- `src/main/java/com/inventario/controller/ProductoController.java` - Añadido `CategoriaService` e incluido `categorias` al modelo en formularios.
+- `src/main/resources/templates/productos/formulario.html` - Select dinámico de categorías usando `${categorias}` en el modelo.
+- `src/main/resources/templates/base.html` - Se añadió botón condicional `Panel Productos` visible en páginas /admin junto al logout.
+
 ### ✅ Comprobaciones realizadas (Fase 2.3)
 - Probado localmente la edición de productos: ya no se produce el error de código al editar y guardar un producto existente.
 - Comprobado que los controles de usuario y cerrar sesión solo aparecen en la cabecera principal y no están duplicados en las vistas administrativas.

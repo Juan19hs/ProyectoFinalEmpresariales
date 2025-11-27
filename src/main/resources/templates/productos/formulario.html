@@ -243,12 +243,9 @@
                         <i class="bi bi-tag"></i>
                         <select class="form-select" id="categoria" th:field="*{categoria}">
                             <option value="">-- Seleccione una categoría --</option>
-                            <option value="Electrónicos">Electrónicos</option>
-                            <option value="Accesorios">Accesorios</option>
-                            <option value="Muebles">Muebles</option>
-                            <option value="Ropa">Ropa</option>
-                            <option value="Alimentos">Alimentos</option>
-                            <option value="Otro">Otro</option>
+                            <!-- Recorre categorías desde el modelo (obtenidas desde CategoriaService) -->
+                            <option th:each="c : ${categorias}" th:value="${c.nombre}" th:text="${c.nombre}"
+                                    th:selected="${producto.categoria == c.nombre}"></option>
                         </select>
                     </div>
                 </div>
