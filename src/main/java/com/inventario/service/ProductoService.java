@@ -2,10 +2,11 @@ package com.inventario.service;
 
 import com.inventario.model.Producto;
 import com.inventario.repository.ProductoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Sort;
 
 /**
  * Servicio para gestionar operaciones de Producto.
@@ -136,5 +137,57 @@ public class ProductoService {
         }
         
         repository.deleteById(id);
+    }
+
+    /**
+     * Obtiene una lista con los productos más costosos.
+     *
+     * @param limite Número máximo de resultados a retornar
+     * @return Lista de productos ordenados por precio descendente
+     */
+    public List<Producto> obtenerMasCostosos(int limite) {
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "precio"))
+                .stream()
+                .limit(limite)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene una lista con los productos más baratos.
+     *
+     * @param limite Número máximo de resultados a retornar
+     * @return Lista de productos ordenados por precio ascendente
+     */
+    public List<Producto> obtenerMasBaratos(int limite) {
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "precio"))
+                .stream()
+                .limit(limite)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene una lista con los productos con mayor stock.
+     *
+     * @param limite Número máximo de resultados a retornar
+     * @return Lista de productos ordenados por stock descendente
+     */
+    public List<Producto> obtenerMayorStock(int limite) {
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "stock"))
+                .stream()
+                .limit(limite)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Obtiene una lista con los productos con menor stock.
+     *
+     * @param limite Número máximo de resultados a retornar
+     * @return Lista de productos ordenados por stock ascendente
+     */
+    public List<Producto> obtenerMenorStock(int limite) {
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "stock"))
+                .stream()
+                .limit(limite)
+                .collect(Collectors.toList());
     }
 }

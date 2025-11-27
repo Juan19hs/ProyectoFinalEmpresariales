@@ -108,6 +108,8 @@ public class ConfiguracionSeguridad {
             .authorizeHttpRequests((authz) -> authz
                 // Rutas públicas (sin autenticación requerida)
                 .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**").permitAll()
+                // Rutas para administración (solo accesible por ROLE_ADMIN)
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 // Todas las demás rutas requieren autenticación
                 .anyRequest().authenticated()
             )

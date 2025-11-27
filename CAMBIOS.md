@@ -124,6 +124,54 @@ URL: http://localhost:9090
 
 ---
 
+## Mejoras Implementadas - Fase 2
+
+### 📋 Cambios Realizados
+
+- Implementado CRUD de `Categoría` (solo administrador):
+  - Se agregó la entidad `Categoria` con validaciones simples
+  - Creado `CategoriaRepository`, `CategoriaService` y `CategoriaController` bajo `/admin/categorias`
+  - Plantillas para listar y crear/editar categorías en `src/main/resources/templates/admin/categorias/`
+  - Acceso restringido a `/admin/**` mediante Spring Security (ROLE_ADMIN)
+
+- Añadido módulo de Estadísticas en el panel de administración:
+  - `AdminController` con endpoint `/admin/estadisticas`
+  - Métricas simples implementadas en `ProductoService`:
+    - Productos más costosos
+    - Productos más baratos
+    - Productos con mayor stock
+    - Productos con menor stock
+  - Plantilla en `src/main/resources/templates/admin/estadisticas.html` para mostrar tabuladas las estadísticas
+
+### 🗄️ Archivos Creados/Modificados (Fase 2)
+
+**Nuevos archivos:**
+- `src/main/java/com/inventario/model/Categoria.java` - Entidad Categoría
+- `src/main/java/com/inventario/repository/CategoriaRepository.java` - Repositorio
+- `src/main/java/com/inventario/service/CategoriaService.java` - Servicio de Categoría
+- `src/main/java/com/inventario/controller/CategoriaController.java` - Controlador CRUD categorías (admin)
+- `src/main/java/com/inventario/controller/AdminController.java` - Panel y estadísticas del admin
+- `src/main/resources/templates/admin/panel.html` - Panel principal admin
+- `src/main/resources/templates/admin/estadisticas.html` - Estadísticas de productos (admin)
+- `src/main/resources/templates/admin/categorias/listado.html` - Listado de categorías
+- `src/main/resources/templates/admin/categorias/formulario.html` - Formulario para crear/editar categoría
+
+**Archivos modificados:**
+- `src/main/java/com/inventario/service/ProductoService.java` - Añadidos métodos para obtener estadísticas de productos (obtenerMasCostosos, obtenerMasBaratos, obtenerMayorStock, obtenerMenorStock)
+- `src/main/java/com/inventario/config/ConfiguracionSeguridad.java` - Añadida restricción para `/admin/**` (ROLE_ADMIN)
+- `src/main/resources/templates/base.html` - Botón de navegación y enlace al panel de admin cuando el usuario es ROLE_ADMIN
+
+### ✅ Comprobaciones realizadas
+
+- Se verificó que `/admin/**` ahora está protegido y solo accesible con ROLE_ADMIN.
+- Las plantillas del administrador se acceden desde el panel (`/admin`) y `/admin/estadisticas`.
+- Las nuevas funcionalidades tienen JavaDoc y nombres en español.
+
+
+**Autor:** Sistema de Inventario - Fase 2
+**Fecha:** 2025
+---
+
 **Versión:** 1.0  
 **Autor:** Sistema de Inventario - Sexto Semestre  
 **Fecha:** 2025
