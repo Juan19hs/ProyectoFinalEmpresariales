@@ -4,10 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${titulo} ?: 'Formulario Categoría - Admin'">Formulario Categoría - Admin</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        /* Copiado estilos de productos/listado para mantener la misma interfaz */
+        body{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #0f172a; min-height: 100vh; }
+        .header{ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.3); border-bottom: 3px solid #667eea; margin-bottom: 30px; }
+        .header h1{ margin: 0; font-size: 32px; font-weight: 700; }
+        .container-main { max-width: 1400px; background: white; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+    </style>
 </head>
 <body>
+    <!-- Cabecera (igual que en productos/listado) -->
+    <div class="header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1><i class="bi bi-diagram-3"></i> Sistema de Inventario</h1>
+                <p class="mb-0">Gestión de Productos v1.0</p>
+            </div>
+            <div>
+                <p class="mb-0"><i class="bi bi-person-circle"></i> <strong sec:authentication="principal.username"></strong></p>
+                <a href="/logout" class="btn btn-light btn-sm mt-2"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+                <span sec:authorize="hasRole('ADMIN')">
+                    <a href="/admin" class="btn btn-primary btn-lg mt-2 ms-2" style="background: linear-gradient(135deg,#3b82f6,#06b6d4); border:none; color:white;">Panel Admin</a>
+                </span>
+            </div>
+        </div>
+    </div>
     <div th:fragment="content">
-    <!-- Se reutiliza base.html para encabezado y estilo, sólo se mantiene el contenido central del formulario -->
     <div class="container-main mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="bi bi-pencil-square"></i> Formulario Categoría</h2>

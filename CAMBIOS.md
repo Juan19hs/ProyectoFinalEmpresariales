@@ -190,6 +190,17 @@ URL: http://localhost:9090
 - `src/main/java/com/inventario/controller/AdminController.java` - Añadido `titulo` en métodos `panel` y `estadisticas`
 - `src/main/java/com/inventario/controller/CategoriaController.java` - Añadido `titulo` en `listar`, `nuevoForm`, y `editarForm`
 
+### 🖌️ Ajustes Visuales (Fase 2.2)
+
+- Se aplicó el mismo estilo y cabecera que la vista de productos (`productos/listado.html`) y la de `login.html` a todas las vistas del área administrativa.
+  - Añadido Bootstrap y Bootstrap Icons en las cabeceras de `admin/*` para que luzcan igual que las páginas principales.
+  - Se incluyeron estilos CSS (gradiente, diseño de encabezado y contenedor) para mantener la estética existente.
+  - Se agregó el botón de `Panel Admin` y la información de usuario en el encabezado para consistencia.
+
+### ✅ Comprobaciones realizadas (Fase 2.2)
+- Verificado que las páginas de administración (`/admin`, `/admin/estadisticas`, `/admin/categorias`) muestran el mismo estilo y cabecera que `productos/listado.html` y `login.html`.
+- Comprobado que el acceso sigue protegido y que el contenido administra mantiene la interfaz coherente.
+
 ### ✅ Comprobaciones realizadas
 - Verificado que las plantillas del administrador hereden estilos y navegación de `base.html`.
 - Verificado que las URLs administrativas sigan siendo `/admin/**` y que la protección por `ROLE_ADMIN` se mantiene.
