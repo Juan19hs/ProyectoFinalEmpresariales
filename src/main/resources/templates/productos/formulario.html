@@ -183,7 +183,12 @@
         <div class="form-body">
             
             <!-- Formulario de producto -->
-            <form th:action="@{/productos}" th:method="post" th:object="${producto}" id="productForm">
+            <!--
+                Acción del formulario: si estamos editando (producto.id != null)
+                usamos la ruta /productos/{id} para llamar al método actualizar.
+                En caso contrario (crear) se envía a /productos.
+            -->
+            <form th:action="${producto.id != null} ? @{/productos/{id}(id=${producto.id})} : @{/productos}" th:method="post" th:object="${producto}" id="productForm">
                 
                 <!-- Campo oculto para ID (en edición) -->
                 <input type="hidden" th:field="*{id}">

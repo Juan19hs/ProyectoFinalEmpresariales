@@ -201,6 +201,30 @@ URL: http://localhost:9090
 - Verificado que las páginas de administración (`/admin`, `/admin/estadisticas`, `/admin/categorias`) muestran el mismo estilo y cabecera que `productos/listado.html` y `login.html`.
 - Comprobado que el acceso sigue protegido y que el contenido administra mantiene la interfaz coherente.
 
+---
+
+## Ajustes y Correcciones - Fase 2.3
+
+### 📋 Cambios Realizados
+
+- Corregido comportamiento al editar un producto que mostraba "Error: Código ya existe" cuando se guardaba un producto existente:
+  - Ahora el formulario de edición envía la petición a `/productos/{id}` mediante `th:action` condicional en `productos/formulario.html`.
+  - Se actualizó `ProductoService#actualizar` para permitir actualizar el campo `codigo` sólo si es único en la base de datos o si es el mismo código del producto editado.
+- Eliminadas duplicaciones de la cabecera (usuario / cerrar sesión / enlace a Panel Admin) en las vistas administrativas para que esos controles solo aparezcan en el encabezado principal (`base.html`).
+
+### 🗄️ Archivos modificados (Fase 2.3)
+- `src/main/resources/templates/productos/formulario.html` - Acción del formulario condicional para edición/creación
+- `src/main/java/com/inventario/service/ProductoService.java` - Validación de `codigo` durante actualización
+- `src/main/resources/templates/admin/panel.html` - Eliminado perfil/Logout duplicado dentro del contenido
+- `src/main/resources/templates/admin/estadisticas.html` - Eliminado perfil/Logout duplicado dentro del contenido
+- `src/main/resources/templates/admin/categorias/listado.html` - Eliminado perfil/Logout duplicado dentro del contenido
+- `src/main/resources/templates/admin/categorias/formulario.html` - Eliminado perfil/Logout duplicado dentro del contenido
+
+### ✅ Comprobaciones realizadas (Fase 2.3)
+- Probado localmente la edición de productos: ya no se produce el error de código al editar y guardar un producto existente.
+- Comprobado que los controles de usuario y cerrar sesión solo aparecen en la cabecera principal y no están duplicados en las vistas administrativas.
+
+
 ### ✅ Comprobaciones realizadas
 - Verificado que las plantillas del administrador hereden estilos y navegación de `base.html`.
 - Verificado que las URLs administrativas sigan siendo `/admin/**` y que la protección por `ROLE_ADMIN` se mantiene.

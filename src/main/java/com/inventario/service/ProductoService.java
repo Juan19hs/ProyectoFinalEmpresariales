@@ -120,6 +120,18 @@ public class ProductoService {
         if (p.getPrecio() != null) producto.setPrecio(p.getPrecio());
         if (p.getStock() != null) producto.setStock(p.getStock());
         if (p.getActivo() != null) producto.setActivo(p.getActivo());
+        // Si se envía un nuevo código, permitir actualizarlo solo si no existe en otro producto
+        if (p.getCodigo() != null) {
+            String nuevoCodigo = p.getCodigo().trim();
+            if (!nuevoCodigo.equals(producto.getCodigo())) {
+                // Verificar que el nuevo código no exista en otro producto
+                Optional<Producto> porCodigo = repository.findByCodigo(nuevoCodigo);
+                if (porCodigo.isPresent() && !porCodigo.get().getId().equals(id)) {
+                    throw new Exception("Código ya existe");
+                }
+                producto.setCodigo(nuevoCodigo);
+            }
+        }
 
         return repository.save(producto);
     }
