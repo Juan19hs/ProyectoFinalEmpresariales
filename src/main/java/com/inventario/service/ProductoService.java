@@ -92,6 +92,16 @@ public class ProductoService {
             throw new Exception("Código ya existe");
         }
 
+        // Verificar que el precio cumpla con la política comercial: terminar en .99
+        if (!precioValidoTerminacion99(p.getPrecio())) {
+            throw new Exception("Precio inválido: el precio debe terminar en .99");
+        }
+
+        // Verificar que el stock ingresado sea no-negativo y sea numérico
+        if (p.getStock() == null || p.getStock() < 0) {
+            throw new Exception("Stock inválido: debe ser un número igual o mayor a 0");
+        }
+
         return repository.save(p);
     }
 
@@ -118,8 +128,20 @@ public class ProductoService {
         
         // Actualizar solo los campos que no sean null
         if (p.getNombre() != null) producto.setNombre(p.getNombre());
-        if (p.getPrecio() != null) producto.setPrecio(p.getPrecio());
-        if (p.getStock() != null) producto.setStock(p.getStock());
+        if (p.getPrecio() != null) {
+            // Validar terminación .99 antes de actualizar
+            if (!precioValidoTerminacion99(p.getPrecio())) {
+                throw new Exception("Precio inválido: el precio debe terminar en .99");
+            }
+            producto.setPrecio(p.getPrecio());
+        }
+        if (p.getStock() != null) {
+            // Validar stock no-negativo
+            if (p.getStock() < 0) {
+                throw new Exception("Stock inválido: debe ser número igual o mayor a 0");
+            }
+            producto.setStock(p.getStock());
+        }
         if (p.getActivo() != null) producto.setActivo(p.getActivo());
         // Si se envía un nuevo código, permitir actualizarlo solo si no existe en otro producto
         if (p.getCodigo() != null) {
@@ -135,6 +157,20 @@ public class ProductoService {
         }
 
         return repository.save(producto);
+    }
+
+    /**
+     * Valida que el precio termine en .99 exactamente. 
+     * Ej: 49.99 -> true, 49.96 -> false.
+     * 
+     * @param precio Precio a validar
+     * @return true si termina en .99, false en caso contrario
+     */
+    private boolean precioValidoTerminacion99(Double precio) {
+        if (precio == null) return false;
+        // Convertimos a entero de centavos
+        long centavos = Math.round(precio * 100);
+        return (centavos % 100) == 99;
     }
 
     /**

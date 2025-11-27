@@ -70,10 +70,12 @@
                 </span>
             </div>
             <div>
-                <!-- Mostrar botón a productos cuando se está en la sección admin (para volver al panel de productos)
-                     y mostrar siempre usuario y el botón de logout. -->
-                <span th:if="${#request.requestURI.startsWith('/admin')}" sec:authorize="hasRole('ADMIN')">
+                <!-- Mostrar 'Panel Productos' para admins y 'Carrito' para usuarios normales -->
+                <span sec:authorize="hasRole('ADMIN')">
                     <a href="/productos" class="btn btn-primary ms-2" style="background: linear-gradient(135deg,#3b82f6,#06b6d4); color: white; border: none;">Panel Productos</a>
+                </span>
+                <span sec:authorize="hasRole('USER') and !hasRole('ADMIN')">
+                    <a href="/carrito" class="btn btn-primary ms-2" style="background: linear-gradient(135deg,#3b82f6,#06b6d4); color: white; border: none;">Carrito</a>
                 </span>
                 <span sec:authentication="principal.username"></span>
                 <a href="/logout" class="btn btn-outline-secondary btn-sm ms-2">Cerrar Sesión</a>

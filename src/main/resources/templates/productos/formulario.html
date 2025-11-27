@@ -284,6 +284,8 @@
                             id="stock" 
                             th:field="*{stock}"
                             min="0"
+                            step="1"
+                            inputmode="numeric"
                             placeholder="Ej: 10"
                             required
                             title="Debe ser un número igual o mayor a 0">
@@ -353,6 +355,13 @@
             if (isNaN(precio) || precio <= 0) {
                 e.preventDefault();
                 alert('El precio debe ser un número mayor a 0');
+                return;
+            }
+            // Validar terminación .99 a nivel cliente para mejorar UX
+            const centavos = Math.round(precio * 100);
+            if (centavos % 100 !== 99) {
+                e.preventDefault();
+                alert('El precio debe terminar en .99');
                 return;
             }
             

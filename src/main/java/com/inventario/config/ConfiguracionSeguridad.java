@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -110,6 +111,11 @@ public class ConfiguracionSeguridad {
                 .requestMatchers("/", "/login", "/css/**", "/js/**", "/images/**").permitAll()
                 // Rutas para administración (solo accesible por ROLE_ADMIN)
                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                // Protegemos las rutas que modifican productos: sólo ADMIN puede crear/editar/eliminar
+                .requestMatchers(HttpMethod.POST, "/productos/**").hasRole("ADMIN")
+                .requestMatchers("/productos/nuevo").hasRole("ADMIN")
+                .requestMatchers("/productos/*/editar").hasRole("ADMIN")
+                .requestMatchers("/productos/*/eliminar").hasRole("ADMIN")
                 // Todas las demás rutas requieren autenticación
                 .anyRequest().authenticated()
             )

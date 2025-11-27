@@ -190,7 +190,14 @@ public class Producto {
      * @param precio Precio unitario
      */
     public void setPrecio(Double precio) {
-        this.precio = precio;
+        // Ajuste y normalización del precio: redondear a 2 decimales
+        // para evitar imprecisiones de punto flotante al guardar.
+        if (precio == null) {
+            this.precio = null;
+        } else {
+            // Redondeo a 2 decimales usando Math.round
+            this.precio = Math.round(precio * 100.0) / 100.0;
+        }
     }
     
     /**
@@ -206,6 +213,16 @@ public class Producto {
      * @param stock Cantidad disponible en inventario
      */
     public void setStock(Integer stock) {
+        // Normalizar y validar stock: asegurar que esté dentro de un rango
+        if (stock == null) {
+            this.stock = 0;
+            return;
+        }
+        if (stock < 0) {
+            // Evitamos valores negativos; por defecto 0
+            this.stock = 0;
+            return;
+        }
         this.stock = stock;
     }
     

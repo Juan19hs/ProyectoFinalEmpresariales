@@ -124,6 +124,37 @@ URL: http://localhost:9090
 
 ---
 
+## Ajustes y Correcciones - Fase 2.5
+
+### 📋 Cambios Realizados (Corrección de cantidad, precio y roles)
+
+- Corregido y normalizado el manejo del `stock` en el modelo `Producto`:
+  - Se añadió validación en `setStock()` para evitar valores nulos o negativos y forzar valores enteros.
+  - Se añadió comprobación en `ProductoService` para validar `stock` al crear y actualizar.
+- Corregido y normalizado el manejo de `precio` en el modelo y servicio:
+  - `setPrecio()` redondea el precio a 2 decimales para evitar problemas de punto flotante.
+  - `ProductoService` valida que el precio termine en `.99` tanto en creación como en actualización.
+  - Se añadió validación en cliente (JS) para exigir terminación `.99` antes de enviar el formulario.
+- Se añadió validación y campos para `stock` en el formulario con `step="1"` y `inputmode="numeric"`.
+- Se añadieron restricciones de seguridad para operaciones CRUD sobre productos para que solo ADMIN pueda crear/editar/eliminar productos (via `ConfiguracionSeguridad`).
+- Se añadió una implementación básica de `Carrito` (controlador + plantillas) para usuarios con sesión:
+  - `/carrito` lista productos añadidos (almacenados en HttpSession)
+  - `/carrito/agregar/{id}` añade un producto por ID al carrito
+  - `/carrito/eliminar/{id}` elimina un producto del carrito (de la sesión)
+- Se adaptó `productos/listado.html` para mostrar controles por rol:
+  - Usuarios normales (no admin) ven botón `Agregar al carrito` y no ven Editar/Eliminar/Nuevo.
+  - Administradores ven `Nuevo Producto`, `Editar` y `Eliminar`.
+- Se actualizó `base.html` para mostrar `Carrito` a usuarios normales y `Panel Productos` a administradores en la esquina superior derecha.
+
+### ✅ Pruebas realizadas (Verificación)
+
+- Compilación y empaquetado local: `mvn package` - exitoso.
+- Ejecución del JAR y verificación básica de endpoints: `/productos`, `/login`, `/admin`, `/carrito`, `/admin/estadisticas`.
+- Comprobada la creación de un producto con `stock=20` y `precio=49.99`; se muestra `20 unidades` y `$49.99` en el listado.
+- Probada la vista para admin y usuario: edición y eliminación de productos solo aparece para admin; usuarios ven botón `Agregar al carrito`.
+
+---
+
 ## Mejoras Implementadas - Fase 2
 
 ### 📋 Cambios Realizados
