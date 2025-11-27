@@ -98,7 +98,8 @@ public class ProductoService {
     /**
      * Actualiza un producto existente en la base de datos.
      * 
-     * Busca el producto por ID y actualiza solo los campos que no sean null.
+    * Busca el producto por ID y actualiza solo los campos que no sean null.
+    * Si se recibe un nuevo `codigo`, se actualizará solo si no existe en otro producto.
      * 
      * @param id Identificador del producto a actualizar
      * @param p Objeto Producto con los nuevos datos
