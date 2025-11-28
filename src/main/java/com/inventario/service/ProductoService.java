@@ -92,9 +92,9 @@ public class ProductoService {
             throw new Exception("Código ya existe");
         }
 
-        // Verificar que el precio cumpla con la política comercial: terminar en .99
-        if (!precioValidoTerminacion99(p.getPrecio())) {
-            throw new Exception("Precio inválido: el precio debe terminar en .99");
+        // Verificar que el precio sea mayor a 0
+        if (p.getPrecio() == null || p.getPrecio() <= 0) {
+            throw new Exception("Precio inválido: el precio debe ser mayor a 0");
         }
 
         // Verificar que el stock ingresado sea no-negativo y sea numérico
@@ -129,9 +129,9 @@ public class ProductoService {
         // Actualizar solo los campos que no sean null
         if (p.getNombre() != null) producto.setNombre(p.getNombre());
         if (p.getPrecio() != null) {
-            // Validar terminación .99 antes de actualizar
-            if (!precioValidoTerminacion99(p.getPrecio())) {
-                throw new Exception("Precio inválido: el precio debe terminar en .99");
+            // Validar que el precio sea mayor a 0
+            if (p.getPrecio() <= 0) {
+                throw new Exception("Precio inválido: el precio debe ser mayor a 0");
             }
             producto.setPrecio(p.getPrecio());
         }
@@ -161,20 +161,6 @@ public class ProductoService {
         }
 
         return repository.save(producto);
-    }
-
-    /**
-     * Valida que el precio termine en .99 exactamente. 
-     * Ej: 49.99 -> true, 49.96 -> false.
-     * 
-     * @param precio Precio a validar
-     * @return true si termina en .99, false en caso contrario
-     */
-    private boolean precioValidoTerminacion99(Double precio) {
-        if (precio == null) return false;
-        // Convertimos a entero de centavos
-        long centavos = Math.round(precio * 100);
-        return (centavos % 100) == 99;
     }
 
     /**
