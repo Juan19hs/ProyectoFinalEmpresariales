@@ -19,6 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ControladorLogin {
     
     /**
+     * Redirige la raíz de la aplicación a la página de login o productos.
+     * 
+     * @return Redirección a /login
+     */
+    @GetMapping("/")
+    public String redirigirRaiz() {
+        return "redirect:/login";
+    }
+    
+    /**
      * Muestra la página de login.
      * 
      * Maneja los parámetros opcionales de error y logout para mostrar
